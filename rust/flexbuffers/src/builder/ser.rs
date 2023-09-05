@@ -120,7 +120,7 @@ impl ser::SerializeMap for &mut FlexbufferSerializer {
     where
         T: Serialize,
     {
-        key.serialize(MapKeySerializer(self))
+        key.serialize(&mut **self)
     }
     fn serialize_value<T: ?Sized>(&mut self, value: &T) -> Result<(), Self::Error>
     where

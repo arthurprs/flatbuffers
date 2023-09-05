@@ -98,20 +98,20 @@ pub(super) fn sort_map_by_keys(values: &mut [Value], buffer: &[u8]) {
     // of the values stack must be alternating (key, value) pairs. The public API must not be
     // able to trigger the above debug_assets that protect this unsafe usage.
     let pairs: &mut [[Value; 2]] = unsafe { std::slice::from_raw_parts_mut(raw_pairs, pairs_len) };
-    #[rustfmt::skip]
-    pairs.sort_unstable_by(|[key1, _], [key2, _]| {
-        if let Value::Key(a1) = *key1 {
-            if let Value::Key(a2) = *key2 {
-                let s1 = get_key(buffer, a1);
-                let s2 = get_key(buffer, a2);
-                let ord = s1.cmp(s2);
-                if ord == std::cmp::Ordering::Equal {
-                    let dup: String = get_key(buffer, a1).map(|&b| b as char).collect();
-                    panic!("Duplicated key in map {:?}", dup);
-                }
-                return ord;
-            }
-        }
-        unreachable!();
-    });
+    // #[rustfmt::skip]
+    // pairs.sort_unstable_by(|[key1, _], [key2, _]| {
+    //     if let Value::Key(a1) = *key1 {
+    //         if let Value::Key(a2) = *key2 {
+    //             let s1 = get_key(buffer, a1);
+    //             let s2 = get_key(buffer, a2);
+    //             let ord = s1.cmp(s2);
+    //             if ord == std::cmp::Ordering::Equal {
+    //                 let dup: String = get_key(buffer, a1).map(|&b| b as char).collect();
+    //                 panic!("Duplicated key in map {:?}", dup);
+    //             }
+    //             return ord;
+    //         }
+    //     }
+    //     unreachable!();
+    // });
 }
